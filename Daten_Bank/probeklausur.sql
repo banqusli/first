@@ -1,0 +1,72 @@
+﻿DROP TABLE IF EXISTS tiere, naturschutzstation, beobachter, beobachtet,betreut CASCADE;
+
+CREATE TABLE tiere(
+	tier_id INT PRIMARY KEY,
+	tname VARCHAR(30)[], ---!!!!
+	wiss_name VARCHAR(30),
+	art VARCHAR(30),
+	gattung VARCHAR(30)) with OIDS; -- Objekt Identifiers
+
+CREATE TABLE voegel(
+	rote_Liste boolean) INHERITS (tiere) with OIDS;
+CREATE TABLE lurche(
+	giftig boolean) INHERITS (tiere) with OIDS;
+CREATE TABLE saeugetiere(
+	eingeschleppt boolean) INHERITS (tiere) with OIDS;
+CREATE TABLE naturschutzstation(
+	nid INT PRIMARY KEY,
+	breite VARCHAR(30),
+	laenge VARCHAR(30),
+	nname VARCHAR(30));
+CREATE TABLE beobachter(
+	bid INT PRIMARY KEY,
+	bname VARCHAR(30),
+	bstrasse VARCHAR(30),
+	bort VARCHAR(30),
+	bplz VARCHAR(10),
+	qualifikation VARCHAR(30),
+	nid INT references naturschutzstation(nid)); ----!!!!
+CREATE TABLE beobachtet(
+	zeit DATE,
+	bbreite VARCHAR(30),
+	blaenge VARCHAR(30),
+	bid INT REFERENCES beobachter(bid),
+	tier_id INT, FOREIGN KEY(tier_id) REFERENCES tiere(tier_id));
+
+------------------------------------------------------------------------------
+Select * from tiere;
+
+INSERT INTO voegel VALUES
+	(1, '{"Grosstrappe"}','wissenschaftername','ArtDesTieres','Gattung Des Tieres',TRUE),
+	(2,'{"Tick","Trick","Truck"}','Duck','Ente','auch Ente',FALSE);
+INSERT INTO lurche VALUES
+	(4, '{"GrosserLurch", "KleinenLurch"}','wissenschaftername2','ArtDesTieresISTLurch','Gattung Des Tieres',TRUE);
+INSERT INTO saeugetiere VALUES
+	(4,'{"Affe, Chimpanse"}','Wissen_Affe','Baumbewohner','Gattung des Affens',FALSE),
+	(5,'{"Robbe"}','Wissen_Robbe','Meerbewohner','Gattung der Robbe',TRUE);
+INSERT INTO naturschutzstation VALUES	
+	(12,'1234566','546678', 'Station1'),
+	(178,'12345asd66','546asd678', 'Station2');
+INSERT INTO beobachter VALUES
+	(14,'beo1','name','balbla','blabla',12),
+	(167,'beo2','name','balbla','blabla',178);
+
+
+--------------------------------------------TRIGGER
+ALTER TABLE lurche ADD anderung_dat date;
+ALTER TABLE lurche ADD username VARCHAR(30);
+
+CREATE OR REPLACE FUNCTION lurche_trigger() RETURNS TRIGGER AS
+	$$
+		BEGIN
+		NEW.anderung_dat :=CURRENT_DATE;
+		NEW.username := CURRENT_USER;
+		RETURN NEW;
+		END
+	$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER lurche_trigger
+	BEFORE INSERT OR UPDATE ON lurche
+	FOR EACH ROW EXECUTE PROCEDURE lurche_trigger();
+
+SELECT * FROM lurche;
