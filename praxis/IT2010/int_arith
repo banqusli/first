@@ -1,0 +1,8 @@
+#!/bin/bash
+# Integer Arithmetik
+
+
+RESULT=`expr $1 "$2" $3`
+echo $1" "$2" "$3" = "$RESULT
+
+exit 0

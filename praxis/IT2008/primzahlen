@@ -1,0 +1,36 @@
+#!/bin/bash
+# Berechnung Primzahlen
+
+if [ -z $1 ]
+  then
+    echo -n "Bitte maximale zu testende Zahl eingeben: "
+    read MAX
+  else
+    MAX=$1
+  fi
+
+echo "Berechnung der Primzahlen bis "$MAX:
+echo
+echo "2"  # erste Primzahl
+
+for ((k=3;k<=$MAX;k+=2)) # gerade Zahlen sind keine Primzahlen
+  do
+    # TMAX=`expr $k - 1`   # naive Annahme Testgrenze
+    TMAX=`echo "scale=0; sqrt("$k")" | bc -l`
+    # echo "Testgrenze : "$TMAX
+    PRIM="yes"
+    for ((i=3;i<=$TMAX;i+=2)) # Test auf Teilbarkeit
+      do
+        if [ `expr $k % $i` -eq 0 ]
+          then
+            PRIM="no"
+            break # Teiler gefunden, Test abbrechen
+          fi
+      done # Ende Test auf Teilbarkeit
+    if [ $PRIM = "yes" ]
+      then
+        echo $k
+      fi   
+  done # Ende Schleife der zu testenden Zahlen
+
+exit 0

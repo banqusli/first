@@ -1,0 +1,9 @@
+#!/bin/bash
+# for-Schleife im C ähnlichne Stil
+
+for ((i=1;i<=20;i+=i))
+  do
+    echo -n $i" "
+  done
+echo "Fertig."
+exit 0

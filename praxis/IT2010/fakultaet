@@ -1,0 +1,19 @@
+#!/bin/bash
+# Berechnung n!
+N=$1
+
+function nfak ()
+  {
+    NFAK_N=$1
+    FAK=1
+    for ((nfak_i=2;nfak_i<=$NFAK_N;nfak_i++))
+      do
+        #let FAK=( $FAK * $nfak_i) # funktioniert bis 20! dann Überlauf
+	FAK=`echo "scale=0; "$FAK" * "$nfak_i | bc -l` # bis 52!
+      done
+  }
+
+nfak $N
+echo $N"! = "$FAK
+
+exit 0

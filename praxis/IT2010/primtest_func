@@ -1,0 +1,30 @@
+#!/bin/bash
+# Test auf Primzahl
+ZAHL=$1
+
+function primtest ()
+{
+  k=$1
+  PRIM=1
+  if [ $k -ge 2 -a 0 -eq $(( $k % 2 )) ]  # Zahl k >= 2 und Rest der Division durch 2 = 0 
+    then				  # --> keine Primzahl 
+      PRIM=0
+    else
+      TESTMAX=`echo "scale=0; sqrt("$k")" | bc -l`
+      for ((i=3;i<$TESTMAX;i+=2))
+        do
+          if [ $(( $k % $i )) -eq 0 ]	# Divisionsrest = 0 --> Teiler gefunden
+            then
+              PRIM=0                  	# keine Primzahl
+	      break			# ein Teiler reicht
+            fi
+        done
+    fi
+  # Schleife beendet = kein Teiler gefunden
+  return $PRIM
+}
+
+primtest $ZAHL
+echo "Primzahl ja/nein : "$? # Rückgabewert der Funktion im Return-Value
+
+exit 0

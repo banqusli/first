@@ -1,0 +1,36 @@
+<ESC>	zurück zum Visual-Mode (Standardmodus)
+
+
+<i>	wechselt zum Input-Mode
+<a>	anfügen hinter der Cursorposition
+<s>	Zeichen an Cursorposition ersetzen, dann Input-Mode
+
+<O>	Zeile oberhalb Cursor einfügen, Input-Mode
+<o>	Zeile unterhalb Cursor einfügen, Input-Mode
+
+<ESC> <:> <w>		speichern
+<ESC> <:> <w> <q>	speichern + beenden
+<ESC> <:> <w> <!>	speichern erzwingen
+			(nur Eigentümer der Datei!)
+<ESC> <:> <q>		beenden (ohne Speichern)
+<ESC> <:> <q> <!>       beenden ohne Speichern erzwingen
+
+<ESC> <x>		Zeichen löschen
+<ESC> <d> <d>		Zeile löschen (landet im Zwischenspeicher,
+			kann mit <p> eingefügt werden)
+
+Navigatin ohne Cursortasten:
+<h>	links
+<j>	unten
+<k>	oben
+<l>	rechts
+
+Weitere Operationen
+<J>	damit fügt man Zeilen zusammen (die darunter an die aktuelle)
+<y> <y>	Zeile kopieren
+<p>	paste (einfügen)
+
+
+Suchen:
+<ESC> </> Suchstring
+<n>	nächste gefundene Stelle

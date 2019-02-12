@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for I in Es ist Freitag !!!
+  do
+    echo $I
+  done
+
+exit 0

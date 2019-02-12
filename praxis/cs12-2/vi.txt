@@ -1,0 +1,34 @@
+<ESC>	zurück zum visual mode (Standardmodus)
+
+<i>	input mode an der Cursorposition
+<s>	Zeichen an Cursorposition löschen, input mode
+<a>	nach Cursorposition anfügen
+
+Speichern:
+<ESC> <:> <w>		speichern
+<ESC> <:> <q>		beenden
+<ESC> <:> <w> <q>	speichern und beenden
+<ESC> <:> <w> <!>	speichern erzwingen (Eigentümer)
+<ESC> <:> <w> <q> <!>   speichern und beenden erzwingen (Eigentümer)
+
+<O>	Zeile über Cursor einfügen, input mode
+<o>	Zeile unter Cursor einfügen, input mode
+
+Cursorsteuerung:
+<h>	links
+<j>	unten
+<k>	oben
+<l>	rechts
+
+Löschen:
+<x>	Zeichen an Cursorposition
+<d> <d>	Zeile löschen
+
+Kopieren / Einfügen
+<p>		paste (auch letzte gelöschte Zeile)
+<y> <y> 	Zeile kopieren
+<J> 		Zeile mit der darunter verbinden
+
+Suchen
+<ESC> </> Suchstring	nach String suchen
+<n>			zum nächsten Vorkommen

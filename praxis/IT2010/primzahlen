@@ -1,0 +1,37 @@
+#!/bin/bash
+# Berechnung der Primzahlen bis n
+n=$1
+
+function primtest ()
+{
+  k=$1
+  PRIM=0
+  if [ $k -gt 2 -a 0 -eq $(( $k % 2 )) ]  # Zahl k >= 2 und Rest der Division durch 2 = 0 
+    then				  # --> keine Primzahl 
+      PRIM=1
+    else
+      TESTMAX=`echo "scale=0; sqrt("$k")" | bc -l`
+      for ((i=3;i<=$TESTMAX;i+=2))	# alle Zahlen <= Wurzel oder < Zahl testen
+        do
+          if [ $(( $k % $i )) -eq 0 ]	# Divisionsrest = 0 --> Teiler gefunden
+            then
+              PRIM=1                  	# keine Primzahl
+	      break			# ein Teiler reicht
+            fi
+        done
+    fi
+  # Schleife beendet = kein Teiler gefunden
+  return $PRIM
+} # Rückgabewert 0 sei Primzahl, 1 keine
+
+for ((j=2;j<=$n;j++))
+  do
+    # primtest $j
+    # if [ $? -eq 0 ]
+    if primtest $j # if wird vom Rückgabewert von primtest gesteuert
+      then 
+        echo $j # Primzahl $i ausgeben
+      fi
+  done
+
+exit 0

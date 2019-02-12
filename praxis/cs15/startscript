@@ -1,0 +1,46 @@
+#!/bin/bash
+SERVICE=$0
+ACTION=$1
+PROGRAMM="xterm"
+
+function p_status {
+  if pidof $1 > /dev/null
+    then
+      P_STATUS=0
+    else
+      P_STATUS=1
+    fi  
+  return $P_STATUS
+}
+
+case $ACTION in
+  start) echo "Service $SERVICE starten..."
+         if p_status $PROGRAMM
+            then
+              echo "Service $PROGRAMM is already running."
+            else
+              $PROGRAMM &	# service starten
+              echo "Service $PROGRAMM started."
+            fi
+	;;
+  stop) echo "Service $SERVICE anhalten..."
+         if p_status $PROGRAMM
+            then
+              kill -TERM `pidof $PROGRAMM`
+              echo "Service $PROGRAMM was stopped."
+            else
+              echo "Service $PROGRAMM is not running."
+            fi
+        ;;
+  status) echo "Status von Service $SERVICE bestimmen..."
+ 	  if p_status $PROGRAMM
+            then
+              echo "Service $PROGRAMM is running."
+            else
+              echo "Service $PROGRAMM is not running."
+            fi
+        ;;
+  *) echo "Usage: $ACTION {start|stop|status}"
+	;;
+  esac
+exit 0

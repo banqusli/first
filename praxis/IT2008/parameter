@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Aufgerufener Befehl: "$0
+echo "Parameter 1:         "$1
+echo "Parameter 1:         "$2
+echo "Parameter 1:         "$3
+
+exit 0

@@ -1,0 +1,47 @@
+#!/bin/bash
+
+ZAHL=$1		# Kommandozeilenparameter sichern
+
+function test_primzahl {
+  T_ZAHL=$1	# zu testende Zahl wird als Parameter übergeben
+  T_PRIM=0	# 1 --> keine Primzahl, 0 --> Primzahl
+  # Zahlen kleiner 2 sind keine Primzahlen
+  if [ $T_ZAHL -le 1 ]
+    then
+      T_PRIM=1		# Zahl ist <= 1 (also kleiner als 2) --> keine Primzahl
+      return $T_PRIM	# Abbruch Funktion und Rückgabe 1 --> keine Primzahl
+    fi
+  # die Zahl zwei ist eine Primzahl
+  if [ $T_ZAHL -eq 2 ]
+    then
+      return $T_PRIM    # Abbruch Funktion und Rückgabe 0 --> 2 ist Primzahl
+    fi
+  # gerade Zahlen (außer 2) sind keine Primzahlen
+  if [ $(($T_ZAHL % 2)) -eq 0 ]	# Rest der Division (Modulo) durch 2 = 0
+    then
+      T_PRIM=1          # Zahl ist durch 2 teilbar --> keine Primzahl
+      return $T_PRIM    # Abbruch Funktion und Rückgabe 1 --> keine Primzahl
+    fi
+  # nur noch Test mit ungeraden Zahlen ab 3 erforderlich
+  # Test nur bis Wurzel aus T_Zahl notwendig
+  T_ZAHL_MAX=`echo "scale=0; sqrt($T_ZAHL)" | bc -l`
+  for ((T_i=3;T_i<T_ZAHL_MAX;T_i+=2))
+    do
+      if [ $(($T_ZAHL % $T_i)) -eq 0 ] # Rest der Division (Modulo) durch ungerade Zahl = 0
+        then
+          T_PRIM=1         # Zahl ist durch T_i teilbar --> keine Primzahl
+          return $T_PRIM    # Abbruch Funktion und Rückgabe 1 --> keine Primzahl
+        fi
+    done
+  # Kein Teiler gefunden --> Primzahl
+  return $T_PRIM
+}
+
+test_primzahl $ZAHL	# Funktion mit Parameter aufrufen
+if [ $? -eq 0 ]
+  then
+    echo "$ZAHL ist eine Primzahl"
+  else
+    echo "$ZAHL ist keine Primzahl"
+  fi
+exit 0

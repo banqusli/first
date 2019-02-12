@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for I in A B C D1212 E21414 
+  do
+    echo $I
+  done
+exit 0

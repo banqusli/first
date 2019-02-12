@@ -1,0 +1,10 @@
+#!/bin/bash
+
+for((i=1;i<=60;i++))
+  do
+    echo -n "$i s :  "
+    date +%s
+    sleep 1
+  done
+
+exit 0

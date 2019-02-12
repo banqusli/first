@@ -1,0 +1,7 @@
+English:
+This is qemu, the free virtual PC emulator, in the version for Windows. You can boot Knoppix inside Windows using qemu, if your computer cannot boot directly from CD/DVD (or if you don't wish to). The file "start.bat" inside the qemu directory should automatically find and boot the Knoppix CD/DVD in a separate window.
+
+Deutsch:
+Dies ist qemu, der freie virtuelle PC-Emulator, in der Windows-Version. Sie können Knoppix damit innerhalb von Windows booten, wenn Ihr Rechner nicht direkt von CD oder DVD booten kann, oder Sie dies nicht möchten. Die Datei "start.bat" innerhalb des qemu-Verzeichnisses sollte automatisch die eingelegte Knoppix-CD/DVD finden und diese in einem separaten Fenster booten.
+
+http://fabrice.bellard.free.fr/qemu/

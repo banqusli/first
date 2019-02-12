@@ -1,0 +1,8 @@
+#!/bin/bash
+# Arithmetik mit Fließkommazahlen
+# scale= Anzahl Nachkommastellen
+RESULT=`echo "scale=1000; "$1" "$2" "$3 | bc -l`
+
+echo $1" "$2" "$3" = "$RESULT
+
+exit 0 

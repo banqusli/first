@@ -1,0 +1,11 @@
+#!/bin/bash
+
+VAR1=$1
+OP=$2
+VAR2=$3
+
+RESULT=`echo "scale=2; $VAR1 $OP $VAR2" | bc -l`
+
+echo "$VAR1 $OP $VAR2 = $RESULT"
+
+exit 0

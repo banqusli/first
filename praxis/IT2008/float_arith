@@ -1,0 +1,13 @@
+#!/bin/bash
+# Arithmetik mit Fließkommazahlen
+
+echo "Operator : "$2
+VAR1=`echo $1 | tr "," "."`
+VAR3=`echo $3 | tr "," "."`
+
+# RESULT=`echo "scale=2; "$1\ $2\ $3 | bc -l`
+RESULT=`echo "scale=2; "$VAR1\ $2\ $VAR3 | bc -l | tr "." ","`
+
+echo "Erbgebnis: "$RESULT
+
+exit 0

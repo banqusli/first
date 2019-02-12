@@ -1,0 +1,66 @@
+#!/bin/bash
+# Startet / Stopt xterm
+# Es fehlt noch de Exit-Status für die Aktionen
+PIDFILE=xtermpid
+
+case $1 in
+  start)
+	echo "Starte Service xterm"
+	if [ -f $PIDFILE ]
+	  then
+	    echo "Service xterm ist schon gestartet!"
+          else
+	    xterm & # Besser: mit timeout nach PID suchen
+	    PID=`ps | grep xterm | awk '{ print $1 }'`
+	    if [ -z $PID ] # wenn erfolgreich gestartet, PID vorhanden
+	      then
+                echo "Konnte Service xterm nicht starten"
+              else
+                echo $PID > $PIDFILE
+                echo "erfolgreich gestartet"
+              fi
+          fi
+	;;
+  stop)
+        echo "Stoppe Service xterm"
+	PID=`ps | grep xterm | awk '{ print $1 }'`
+	if [ -f $PIDFILE ]
+	  then
+	    if [ -z $PID ]
+	      then
+		echo "Service xterm was dead"
+		rm $PIDFILE
+	      else
+		kill -TERM $PID # besser: prüfen, ob Service gestoppt ist
+		rm $PIDFILE
+		echo "erfolgreich angehalten"
+              fi
+	  fi
+        ;;
+  status)
+        echo "Status Service xterm"
+	if [ -f $PIDFILE ]
+	  then
+	    PID=`ps | grep xterm | awk '{ print $1 }'`
+	    PID_PIDFILE=`cat $PIDFILE`
+	    if [ -z "$PID" -a ! -z "$PID_PIDFILE" ]
+	      then
+		echo "is dead"
+	      else
+		if [ $PID = $PID_PIDFILE ]
+		  then
+		    echo "running"
+		  else
+		    echo "unknown"
+		  fi
+	       fi
+	  else
+	    echo "not running"
+	  fi
+        ;;
+  *)
+	echo "Usage: "$0" {start|stop|status}"
+	;;
+  esac
+
+exit 0

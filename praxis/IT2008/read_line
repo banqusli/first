@@ -1,0 +1,11 @@
+#!/bin/bash
+# Datei zeilenweise lesen und auf Bildschirm ausgeben
+FILE=primzahlen
+
+while read LINE
+  do
+    echo $LINE
+    sleep 1
+  done < $FILE
+
+exit 0

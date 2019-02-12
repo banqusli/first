@@ -1,0 +1,19 @@
+#!/bin/bash
+# Verzeichnis anlegen, weiter nur bei Erfolg
+DIR=$1
+
+if [ -d $DIR ]
+  then
+    echo "Verzeichnis "$DIR" existiert bereits!"
+  else
+    if mkdir $DIR 2&>/dev/null # if wertet exit-Status von mkdir aus
+      then                     # 2&>/dev/null : Umleitung Fehlerkanal
+        echo "Verzeichnis "$DIR" erfolgreich angelegt."
+      else
+        echo "Fehler beim Anlegen des Verzeichnisses "$DIR"!"
+        exit 1
+      fi
+  fi
+
+echo "Hier könnte das Script weitergehen..."
+exit 0

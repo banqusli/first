@@ -1,0 +1,19 @@
+#!/bin/bash
+# Test auf Primzahl
+ZAHL=$1
+# nur Zahlen größer 2 testen
+if [ $ZAHL -ge 2 ]
+  then
+    for ((i=2;i<$ZAHL;i++))
+      do
+        let REST=($ZAHL % $i)   # Berechnung Divisionsrest
+        if [ $REST -eq 0 ]	# $REST = 0 --> Teiler gefunden
+          then
+            echo $ZAHL" ist KEINE Primzahl! Teiler: "$i
+            exit 0                  # Script abbrechen, keine Primzahl
+          fi
+      done
+  fi
+# Schleife beendet = kein Teiler gefunden
+echo "Die Zahl "$ZAHL" ist eine Primzahl!"
+exit 0

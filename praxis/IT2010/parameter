@@ -1,0 +1,26 @@
+#!/bin/bash
+# Kommandozeilenparameter
+
+echo "Aufgerufenes Kommando : "$0
+echo "Parameter Nr. 1       : "$1
+echo "Parameter Nr. 2       : "$2
+echo "Parameter Nr. 3       : "$3
+echo "Parameter Nr. 4       : "$4
+echo "Parameter Nr. 5       : "$5
+echo "Parameter Nr. 6       : "$6
+echo "Parameter Nr. 7       : "$7
+echo "Parameter Nr. 8       : "$8
+echo "Parameter Nr. 9       : "$9
+shift 9
+echo "Parameter Nr. 10      : "$1
+echo "Parameter Nr. 11      : "$2
+echo "Parameter Nr. 12      : "$3
+echo "Parameter Nr. 13      : "$4
+echo "Parameter Nr. 14      : "$5
+echo "Parameter Nr. 15      : "$6
+echo "Parameter Nr. 16      : "$7
+echo "Parameter Nr. 17      : "$8
+echo "Parameter Nr. 18      : "$9
+shift 9
+echo "Parameter Nr. 19      : "$1
+echo "Aufgerufenes Kommando : "$0

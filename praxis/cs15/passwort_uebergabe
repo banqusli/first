@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# if [ -z $1 ]	# ist $1 leer
+#   then		# leer --> Passwort abfragen
+#     echo -n "Passwort eingeben: "
+#     read -s PASSWORD
+#     echo ""
+#   else		# nicht leer --> Passwort wurde übergeben
+#     PASSWORD=$1
+#   fi
+
+if [ -z $1 ]; then echo -n "Passwort eingeben: "; read -s PASSWORD; echo ""; else PASSWORD=$1; fi
+
+echo "Das Passwort lautet: $PASSWORD"
+exit 0

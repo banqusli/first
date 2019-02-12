@@ -1,0 +1,27 @@
+#!/bin/bash
+# Script prüft, ob Passwort auf Kommandozeile übergeben
+FAK=1	# Variable Fak mit 1 initialisieren: 0!=1; 1!=1
+
+if [ -z $1 ]
+  then
+    echo -n "Bitte Zahl n eingeben: "
+    read n
+  else
+    n=$1
+  fi
+
+if [ $n -lt 0 ]  # negative n
+  then
+    echo "n muss eine natürliche Zahl sein!"
+    exit 1	# mit Fehlerstatus 1 beenden
+  fi
+
+for ((i=2;i<=n;i++))
+  do
+    #FAK=`expr $FAK \* $i`
+    FAK=`echo "scale=0; "$FAK\ \*\ $i | bc -l`
+  done
+
+echo $n"! = "$FAK
+
+exit 0

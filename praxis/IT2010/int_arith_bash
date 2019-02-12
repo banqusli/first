@@ -1,0 +1,9 @@
+#!/bin/bash
+# Integer Arithmetik
+# speziell in der BASH
+
+let RESULT = ( $1 $2 $3 )
+#let "RESULT =  $1 $2 $3"
+echo $1" "$2" "$3" = "$RESULT
+
+exit 0

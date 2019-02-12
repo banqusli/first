@@ -1,0 +1,11 @@
+#!/bin/bash
+# Shell kennt nur Textvariablen
+# interpretierbare Zeichen quoten
+
+echo "Operator : "$2
+
+RESULT=`expr $1 "$2" $3`
+
+echo "Ergebnis : "$RESULT
+
+exit 0

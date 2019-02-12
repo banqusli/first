@@ -1,0 +1,67 @@
+#!/bin/bash
+# Beispiel für ein einfaches Startscript
+PID_FILE='xterm.pid'
+PROGRAM_PATH='/usr/bin'
+PROGRAM_NAME='xterm'
+PS_BIN='/usr/bin/ps'
+GREP_BIN='/usr/bin/grep'
+AWK_BIN='/usr/bin/awk'
+CAT_BIN='/usr/bin/cat'
+RM_BIN='/usr/bin/rm'
+
+PAR1=$1
+
+function PROG_STATUS {
+  PS_PROGRAM_NAME=$1
+  PS_PID_RUNNING=`$PS_BIN | $GREP_BIN "$PROGRAM_NAME" | $AWK_BIN '{ print $1 }'`
+  # Fehlerkanal auf /dev/null --> keine Fehler ausgeben
+  PS_PID_FROM_FILE=`$CAT_BIN $PID_FILE 2> /dev/null`
+  if [ -z "$PS_PID_RUNNING" -a -z "$PS_PID_FROM_FILE" ]
+    then
+      PS_STATUS=2 # keine PID im File, Prozess läuft nicht: stopped = 2
+    else
+      if [ ! -z "$PS_PID_RUNNING" -a ! -z "$PS_PID_FROM_FILE" ]
+        then
+          PS_STATUS=0 # PID im File, Prozess läuft: running = 0 
+        else
+          PS_STATUS=1 # PID im File, Prozess läuft nicht: dead = 1
+        fi
+    fi
+  return $PS_STATUS
+} # end function PROG_STATUS
+
+case $PAR1 in
+  start)
+	if PROG_STATUS $PROGRAM_NAME 	# hier wird nicht der exit-Status von test bzw. [ ]
+					#  sondern der der Funktion PROG_STATUS benutzt
+	  then
+	    echo "Service $PROGRAM_NAME is already running."
+          else
+	    $PROGRAM_PATH/$PROGRAM_NAME &	# Service im Hintergrund starten
+	    echo "$!" > $PID_FILE		# PID im File speichern
+	  fi
+	;;
+  stop)
+       if PROG_STATUS $PROGRAM_NAME    # hier wird nicht der exit-Status von test bzw. [ ]
+                                        #  sondern der der Funktion PROG_STATUS benutzt
+          then
+	    kill -TERM `$CAT_BIN $PID_FILE`	# Service mit PID aus File beenden
+	    $RM_BIN $PID_FILE			# PID File löschen
+          else
+	    echo "Service $PROGRAM_NAME is not running or dead."
+          fi
+	;;
+  status)
+	PROG_STATUS $PROGRAM_NAME
+	STATUS=`echo $?`	# Rückgabewert der Funkiotn PROG_STATUS speichern	
+	case $STATUS in
+	  0)	echo "Service $PROGRAM_NAME is running." ;;
+	  1)    echo "Service $PROGRAM_NAME is dead." ;;
+	  2)    echo "Service $PROGRAM_NAME is not running." ;;
+          esac
+	;;
+  *)	echo "Usage: $0 [start|stop|status]"
+	;;
+  esac
+
+exit 0

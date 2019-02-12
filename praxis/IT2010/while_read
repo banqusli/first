@@ -1,0 +1,11 @@
+#!/bin/bash
+# Datei mit while zeilenweise lesen
+FILE="liste.txt"
+#FILE="/etc/passwd"
+
+while read LINE
+  do
+    echo $LINE
+  done < $FILE
+
+exit 0

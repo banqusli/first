@@ -1,0 +1,86 @@
+#!/bin/bash
+# Zip of Death
+
+# Setup
+WORK_DIR=/tmp
+ZIP_DIR=zip_dir
+NEW_DIR=new_dir
+DD_BIN=/bin/dd
+ZIP_BIN="/usr/bin/bzip2 --best"
+ZIP_EXT=bz2			# Dateierweiterung ZIP-Programm
+MKDIR_BIN=/bin/mkdir
+CP_BIN=/bin/cp
+RM_BIN=/bin/rm
+MV_BIN=/bin/mv
+ZIP_ARCHIVE=zip_of_death
+TAR_BIN=/bin/tar
+
+# Parameter abfragen:
+echo -n "Dateigröße für einzelne Datei [MByte]: "
+read SIZE
+echo -n "Anzahl der Dateien                   : "
+read N
+echo -n "Anzahl der Unterverzeichnisse        : " 
+read M
+echo -n "Tiefe Verzeichnisbaum:               : "
+read T
+
+# Größe ausrechnen
+ARCHIV_SIZE=`echo "scale=2; "$SIZE\ \*\ $N\ \*\ $M\ \^\ $T | bc -l` 
+echo "Gesamtgröße des Archivs              : "$ARCHIV_SIZE" MByte"
+echo -n "Soll das Archiv erzeugt werden? <j/n>: "
+read STOP
+if [ ! -z $STOP ] # Test ob Variable nicht leer (leer: Fehler bei Vergleich)
+  then
+   if [ $STOP = "n" -o $STOP = "N" ]
+     then
+       echo "Abgebrochen"
+       exit 1
+     fi
+  fi
+
+# In das Arbeitsverzeichnis wechseln
+cd $WORK_DIR
+
+# 1. Komprimierte Datei mit Nullen erzeugen
+echo "Erzeuge komprimierte Datei mit "$SIZE"MByte Nullen ..."
+$DD_BIN ibs=1M count=$SIZE if=/dev/zero | $ZIP_BIN | $DD_BIN of=nullen.dd.$ZIP_EXT
+
+# 2. Verzeichnis mit n Dateien erzeugen
+echo "Erzeuge Verzeichnis mit "$N" Dateien ..."
+$MKDIR_BIN $ZIP_DIR
+for ((i=1;i<=N;i++))
+  do
+    $CP_BIN nullen.dd.$ZIP_EXT $ZIP_DIR"/"$i".dd."$ZIP_EXT
+  done
+$RM_BIN nullen.dd.$ZIP_EXT
+
+# 3. rekursiv kopieren
+echo -n "Kopiere rekursiv .."
+for ((i=1;i<=T;i++))
+  do
+    echo -n "."$i	# Meldung über Aktivität
+    $MKDIR_BIN $NEW_DIR
+    for ((k=1;k<=M;k++))
+      do
+        $CP_BIN -R $ZIP_DIR $NEW_DIR"/"$k
+      done
+    $RM_BIN -rf $ZIP_DIR      # sonst schiebt mv in das ZIP_DIR
+    $MV_BIN $NEW_DIR $ZIP_DIR # damit steht die Kopie im ZIP_DIR 
+  done
+echo ""
+
+# 4. Archiv erzeugen
+echo "Erzeuge tar-Archiv ..."
+$TAR_BIN cf $ZIP_ARCHIVE".tar"  $ZIP_DIR
+echo "Komprimiere tar-Archiv ..."
+$ZIP_BIN $ZIP_ARCHIVE".tar"
+
+# Aufräumen
+echo "Aufräumen - löschen des temporär erzeugten Verzeichnisses."
+$RM_BIN -rf $ZIP_DIR
+
+
+
+
+

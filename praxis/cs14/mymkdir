@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ -z $1 ]; then echo -n "Verzeichnisname eingeben: "; read DIR; else DIR=$1; fi
+
+if [ -d $DIR ]
+  then
+    echo "i.O. - Verzeichnis existiert bereits."
+  else
+    if mkdir $DIR > /dev/null 2>&1
+      then
+        echo "Verzeichnis erfolgreich angelegt."
+      else 
+        echo "Fehler - Verzeichnis läßt sich nicht anlegen!"
+        exit 1
+      fi
+  fi
+
+exit 0

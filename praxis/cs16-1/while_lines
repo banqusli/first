@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ -z $1 ]
+  then
+    echo -n "Bitte Dateiname eingeben: "; read FILENAME;
+  else
+    FILENAME=$1
+  fi
+
+N=1
+
+while read LINE
+  do 
+    echo "Zeile $N :  $LINE"
+    N=$(($N + 1))
+  done < $FILENAME
+
+exit 0

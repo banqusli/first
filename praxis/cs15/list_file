@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [ -z $1 ]
+  then
+    echo -n "Dateiname: "
+    read FILE
+  else
+    FILE=$1
+  fi
+
+i=1
+
+while read LINE
+  do
+    echo "$i: $LINE"
+    i=$((i + 1))
+  done < $FILE
+
+exit 0

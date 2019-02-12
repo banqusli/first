@@ -1,0 +1,48 @@
+visual mode:
+<ESC>
+
+Zeilen einfügen:
+<O>	Zeile über Cursor einfügen - input mode
+<o>	Zeile unter Cursor einfügen - input mode
+
+Text einfügen:
+<i>	wechselt in den input-mode
+<a>	input mode - anfügen
+<s>	input mode - erstes Zeichen ersetzen
+
+Text löschen:
+<x>	Zeichen an Cursorposition löschen
+<d><d>	Zeile löschen
+
+Zeilen zusammenführen:
+<J>	mit der Zeile darunter zusammenführen
+
+Zeile kopieren:
+<y><y>	Zeile kopieren
+<p>	Paste (auch gelöschte Zeile)
+
+Datei speichern:
+<ESC><:><w><ENTER>	Datei speichern
+<ESC><:><w> datei.txt <ENTER>	unter dem Namen "datei.txt" speichern
+
+Editor verlassen:
+<ESC><:><q><ENTER>	Editor beenden
+<ESC><:><q><!><ENTER>	Beenden erzwingen
+
+Schreiben und beenden:
+<ESC><:><w><q><ENTER>		Schreiben und beenden
+<ESC><:><w><q><!><ENTER>	Schreiben und beenden erzwingen (Eigentümer)
+				(wenn man nicht "write" Attribut setzen will)
+
+
+
+
+Im Text suchen:
+<ESC></><Suchstring>	im Text suchen
+<n>			nächstes Vorkommen
+
+Navigation ohne Cursor-Tasten:
+<h>	links
+<j>	herunter
+<k>	hoch
+<l>	rechts

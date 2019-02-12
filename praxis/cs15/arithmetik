@@ -1,0 +1,16 @@
+#!/bin/bash
+
+a=$1
+OP=$2
+b=$3
+
+# ERGEBNIS=`expr $a "$OP" $b`  # $2 muss man quoten, damit er nicht interpretiert wird (z.B. *)
+# ERGEBNIS=$(( $a $OP $b ))
+# ERGEBNIS=$(($a$OP$b))		# zulässig, schlecht lesbar
+# ERGEBNIS=$(( a $OP b ))		# zulässig
+# ERGEBNIS=`echo "scale=2; $a $OP $b" | bc -l`	# scale=2 --> zwei Nachkommastellen
+ERGEBNIS=`echo "scale=2; $a $OP $b" | bc -l | tr "." ","`  # scale=2 --> zwei Nachkommastellen
+
+echo "$1 $2 $3 = $ERGEBNIS"
+
+exit 0

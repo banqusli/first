@@ -1,0 +1,32 @@
+#!/bin/bash
+# Berechnung e^x
+X=$1
+
+function nfak ()
+  {
+    NFAK_N=$1
+    FAK=1
+    for ((nfak_i=2;nfak_i<=$NFAK_N;nfak_i++))
+      do
+        #let FAK=( $FAK * $nfak_i) # funktioniert bis 20! dann Überlauf
+	FAK=`echo "scale=0; "$FAK" * "$nfak_i | bc -l` # bis 52!
+      done
+  }
+
+EXPX=0
+for ((n=0;n<=52;n++)) 	# n! nur bis 52 berechenbar
+  do
+    nfak $n 	# n! berechnen, steht in FAK
+    Xhochn=`echo "scale=15; "$X" ^ "$n | bc -l`
+    GLIED=`echo "scale=15; "$Xhochn" / "$FAK | bc -l`
+    EXPX=`echo "scale=15; "$EXPX" + "$GLIED | bc -l`
+    if  [ `echo "scale=15; "$GLIED" < 0.000000000000001" | bc -l` -eq 1 ]
+		#grobe Restgliedabsschätzung mit letztem Glied
+      then
+        break
+      fi
+  done
+
+echo "e ^ "$X" = "$EXPX
+
+exit 0

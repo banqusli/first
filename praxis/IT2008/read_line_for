@@ -1,0 +1,13 @@
+#!/bin/bash
+# Datei zeilenweise lesen und auf Bildschirm ausgeben
+FILE=primzahlen
+i=1
+
+while read LINE && [ $i -le 10 ]
+  do
+    echo $LINE
+    ((i++)) # i=`expr $i + 1`
+    usleep 100000
+  done < $FILE
+
+exit 0

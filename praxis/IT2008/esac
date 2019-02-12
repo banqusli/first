@@ -1,0 +1,27 @@
+#!/bin/bash
+# Beispiel für case, oft in Startscripten verwendet
+
+case $0 in
+  "./case")
+     echo "Aufgerufen als case"
+     ;;
+  "./esac")
+     echo "Aufgerufen als esac"
+     ;;
+   esac
+
+case $1 in
+  start)
+    echo "Service *grmpf* starten..."
+    ;;
+  stop)
+    echo "Service *grmpf* anhalten..."
+    ;;
+  status)
+    echo "Status bestimmen ..."
+    echo "Weitere Befehle können folgen ... :=)"
+    ;;
+  *)
+    echo "Usage: "$0" { start | stop }"
+    ;;
+esac
