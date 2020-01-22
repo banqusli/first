@@ -117,7 +117,13 @@ Nennen Sie mindestens vier mogliche Einteilungen (Kategorien) von Software-Muste
 
 Nennen Sie mindestens vier Modellierungssprachen bzw. Notationen abseits der UML!
 
-Wie nennt man die Erstellung eines UML-Diagrammes, welches ein Element eines bereits vorhandenen Diagrammes näher beschreibt?
+Wie nennt man die Erstellung eines UML-Diagrammes, welches ein Element eines bereits vorhandenen Diagrammes näher beschreibt?f
 
 j) Nennen Sie vier Software-Muster! [2]
 يمكن اسماء العلاقات او الكلاسات
+
+a) Geben Sie vier Aufgaben eines Modellierungswerkzeuges an! [2]
+
+h) Nennen Sie die drei (ehemals vier) Teile der UML-Spezifkation! [2]
+
+j) Beschreiben Sie das Softwaremuster „Beobachter” (Struktur, Zweck, Anwendung)! [2]
