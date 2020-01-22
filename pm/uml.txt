@@ -1,0 +1,123 @@
+Nennen Sie mindestens vier Vorteile der Verwendung der UML!
+1.Komplexe Regelwerke leicht verständlich 
+2Software anschaulich gestalten 
+3Perfekte Programmlogik gestalten 
+4 UML-Klassendiagramms vermittelt auf einen Blick eine Übersicht von einer Anwendung
+
+Standard
+● Design
+● Flexibility
+● Abstraction
+● Views 
+
+Nennen Sie mindestens vier Nachteile der Verwendung der UML!
+1. Die UML wird hinsichtlich semantischer Inkonsistenzen, Konstruktmehrdeutigkeiten, inadäquate Notationen und kognitiven Unzugänglichkeiten kritisiert.
+      2. Die hohe Komplexität der Sprache (beispielsweise umfasst die Sprachspezifikation aktuell rund 800 Seiten) verursacht Schwierigkeiten bei ihrer Benutzung.
+      3.Bisher sind keine Werkzeuge verfügbar, die den Sprachstandard vollständig unterstützen.
+      4.Die Pflege des Standards ist schwerfällig und leicht fehleranfällig.
+
+Oversize
+● Complexity
+● Synchronisation
+● Inconsistency
+● Overhead
+
+d) Wie nennt man die beiden Bestandteile des Roundtrip Engineering (RTE)?
+Forward Engineering
+Reverse Engineering
+
+e) Wie werden folgende UML-Elemente in Java-Quelltext abgebildet?
+
+Beschreiben Sie kurz Sinn und Zweck des UML Meta Modei?
+Meta model specifies basic UML elements and relations
+● Superstructure: class, component, state machine
+● Infrastructure library core:
+● primitive types: e.g. integer, boolean
+● basic: e.g. package
+● abstractions: e.g. namespace, classifier, instance
+● constructs: e.g. super, multiplicity, visibility
+
+
+
+
+
+
+
+
+
+
+Wie nennt sich das zum UML Meta Modei gehörige Meta Meta Modei?
+MOF Meta Model
+
+Benennen Sie die vier Ebenen der UML Four-Layer Meta Model Hierarchy!
+Four-Layer Meta Model Hierarchy
+meta meta model
+meta model/languagespecification
+model/user specification
+instances/objects of the model
+
+e)CMOF Packages!
+MOF reuses a subset of the UML Infrastructure Library packages
+
+i) Was ist ein Stereotype?
+Stereotype: additional property given as image or text
+
+is a profile class which defines how an existing metaclass may be extended as part of a profile. It enables the use of a platform or domain specific terminology or notation in place of, or in addition to, the ones used for the extended metaclass. 
+
+Benennen Sie Einsatzschwerpunkte für die folgenden UML-Diagramme!
+
+CD 	static elements (classes, relationships)	Priority high
+OD	instance structure at a specific time	low
+CMD 	components and dependencies		medium
+PD	system split-up into logical groupings	low
+DD	system hardware, deployed components	medium
+CSD 	internal class structure, collaborations	low
+PRD	at metamodel level, stereotype, profile	low
+UCD	functionality (actors, use cases, relation)	medium
+AD	step-by-step workflows of components	high
+SMD	dynamic behaviour of an entity		medium
+
+Benennen und erläutern Sie Gemeinsamkeiten von und Unterschiede zwischen: Assoziation, Rolle, Aggregation, Komposition!
+Eine Assoziation ist eine Zusammenfassung gleichartiger Relationen zwischen Relationsmengen
+Die Aggreagtion ist ein Spezialfall der Assoziation. Assoziation beschreibt eine gleichrangige Relation, Aggregation eine eine ist-Teil-von Relation 
+Assoziation: Ich habe zwei Autos...
+Aggregation: Ein Auto hat vier Räder... 
+
+Komposition, Aggregation Sowohl in der Aggregation als auch in der Komposition besitzt das Objekt einer Klasse das Objekt einer anderen Klasse. Es gibt jedoch einen subtilen Unterschied: Aggregation impliziert eine Beziehung, in der das Kind unabhängig vom Elternteil existieren kann. ... Komposition impliziert eine Beziehung, in der das Kind nicht unabhängig vom Elternteil existieren kann.
+Rolle: Ein Rollenname erklärt, wie ein Objekt an der Beziehung teilnimmt. Jedes Objekt muss einen Verweis auf das zugehörige Objekt oder die zugehörigen Objekte enthalten.
+
+a) Geben Sie sechs Aufgaben eines CASE-Werkzeuges an!
+
+Projektmanagement.
+Datenwörterbuch.
+Codegenerierung.
+User Interface Design.
+Schema-Generierung.
+Erstellung von Metadaten für Data Warehouse.
+Reverse Engineering.
+Reengineering.
+
+Was sind und wozu dienen Profile in der UML?
+Profile ist ein Profilpaket, das ein Referenzmetamodell (z. B. UML) erweitert, indem es ermöglicht, das Metamodell mit Konstrukten anzupassen oder anzupassen, die für eine bestimmte Domäne, Plattform oder Softwareentwicklungsmethode spezifisch sind.
+
+h) Charakterisieren Sie die Begriffe “Library” und “Framework”! [2]
+
+
+
+
+
+
+
+
+
+
+
+
+Nennen Sie mindestens vier mogliche Einteilungen (Kategorien) von Software-Mustern!
+
+Nennen Sie mindestens vier Modellierungssprachen bzw. Notationen abseits der UML!
+
+Wie nennt man die Erstellung eines UML-Diagrammes, welches ein Element eines bereits vorhandenen Diagrammes näher beschreibt?
+
+j) Nennen Sie vier Software-Muster! [2]
+يمكن اسماء العلاقات او الكلاسات
