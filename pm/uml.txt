@@ -73,9 +73,19 @@ PD	system split-up into logical groupings	low
 DD	system hardware, deployed components	medium
 CSD 	internal class structure, collaborations	low
 PRD	at metamodel level, stereotype, profile	low
+
 UCD	functionality (actors, use cases, relation)	medium
 AD	step-by-step workflows of components	high
 SMD	dynamic behaviour of an entity		medium
+
+SD	objects and exchanged messages order 	high
+COD	interactions between objects			low
+IOD	control flow within system, variant of AD	low
+TD	object behaviour over period of time	low
+
+
+
+
 
 Benennen und erläutern Sie Gemeinsamkeiten von und Unterschiede zwischen: Assoziation, Rolle, Aggregation, Komposition!
 Eine Assoziation ist eine Zusammenfassung gleichartiger Relationen zwischen Relationsmengen
@@ -113,17 +123,59 @@ h) Charakterisieren Sie die Begriffe “Library” und “Framework”! [2]
 
 
 
+
+
+
+
+
+
 Nennen Sie mindestens vier mogliche Einteilungen (Kategorien) von Software-Mustern!
+
+Erzeugungsmuster 
+Strukturmuster
+Verhaltensmuster
+Muster für objektrelationale Abbildung 
+Architekturmuster 
 
 Nennen Sie mindestens vier Modellierungssprachen bzw. Notationen abseits der UML!
 
-Wie nennt man die Erstellung eines UML-Diagrammes, welches ein Element eines bereits vorhandenen Diagrammes näher beschreibt?f
+Unified process
+Team Fusion
+Open/OML
+MOSES
+RUP, OEP
 
-j) Nennen Sie vier Software-Muster! [2]
-يمكن اسماء العلاقات او الكلاسات
+Wie nennt man die Erstellung eines UML-Diagrammes, welches ein Element eines bereits vorhandenen Diagrammes näher beschreibt?
+
+j) Nennen Sie vier Software-Muster! [2
+
+bridge pattern 
+adapter pattern 
+decorator pattern 
+observer pattern 
+iterator pattern 
 
 a) Geben Sie vier Aufgaben eines Modellierungswerkzeuges an! [2]
 
+Diagrammunterstützung
+Modelltransformation
+Quelltexterzeugung
+Reverse Engineering
+XMI-Unterstützung
+https://de.wikipedia.org/wiki/UML-Werkzeug 
+
 h) Nennen Sie die drei (ehemals vier) Teile der UML-Spezifkation! [2]
 
+UML Superstructure 
+UML Infrastructure 
+Object constraint language
+Diagram interchange  
+
 j) Beschreiben Sie das Softwaremuster „Beobachter” (Struktur, Zweck, Anwendung)! [2]
+
+beochter zwerk: dient der Weitergabe von Änderungen an einem Objekt an von diesem Objekt abhängige Strukturen.
+
+Anwendung : Allgemein finden Beobachter-Muster Anwendung, wenn eine Abstraktion mehrere Aspekte hat, die von einem anderen Aspekt derselben Abstraktion abhängen, wo Änderung eines Objekts Änderungen an anderen Objekten nach sich zieht oder ein Objekt andere Objekte benachrichtigen soll, ohne diese im Detail zu kennen.  
+
+Struktur
+https://de.wikipedia.org/wiki/Beobachter_(Entwurfsmuster)#/media/Datei:Beobachterentwurfsmuster.png 
